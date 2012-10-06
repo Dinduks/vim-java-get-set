@@ -6,5 +6,6 @@ This repository is a mirror of the
 plugin.  
 It is *pathogen-friendly*.
 
-I do not own any right to this plugin.
+I do not own any right to the plugin itself, but only to the commits starting the
+third one.
 

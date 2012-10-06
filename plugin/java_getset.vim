@@ -715,7 +715,12 @@ if !exists("*s:InsertMethodBody")
         break
       endif
 
-      call append(pos, s:indent . strpart(string, 0, len))
+      if strpart(string, 0, len) == ""
+        let line = strpart(string, 0, len)
+      else
+        let line = s:indent . strpart(string, 0, len)
+      endif
+      call append(pos, line)
 
       let pos = pos + 1
       let string = strpart(string, len + 1)
