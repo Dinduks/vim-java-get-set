@@ -1,9 +1,9 @@
 " Vim filetype plugin file for adding getter/setter methods
-" Language:	Java
-" Maintainer: Pete Kazmier (pete-vim AT kazmier DOT com)
-" Last Change: 2002 Nov 21 
-" Revision: $Id: java_getset.vim,v 1.10 2002/12/02 15:14:31 kaz Exp $
-" Credit: 
+" Language:    Java
+" Maintainer:  Pete Kazmier (pete-vim AT kazmier DOT com)
+" Last Change: 2002 Nov 21
+" Revision:    $Id: java_getset.vim,v 1.10 2002/12/02 15:14:31 kaz Exp $
+" Credit:
 "    - Based on jcommenter.vim by Kalle Björklid <bjorklid@st.jyu.fi.
 "    - Thanks to Dan Sharp for his feedback, suggestions and help.
 "    - Thanks to Steven Op de beeck for his feedback and help.
@@ -50,9 +50,9 @@
 " range).  In either case, the selected block may include comments as they
 " will be ignored during the parsing.  For example, you could select all
 " of these properties with a single visual block.
-" 
-" public class Test 
-" { 
+"
+" public class Test
+" {
 "    // The global count
 "    private static int count;
 "
@@ -95,7 +95,7 @@
 "
 " INTERFACE (commands, mappings, and variables)
 " The following section documents the commands, mappings, and variables
-" used to customize the behavior of this script.  
+" used to customize the behavior of this script.
 "
 " Commands:
 "   :InsertGetterSetter
@@ -153,7 +153,7 @@
 "       map <buffer> <C-p> <Plug>JavagetsetInsertGetterSetter
 "
 "   When you define your own mapping, the default mapping does not get
-"   set, only the mapping you specify.  
+"   set, only the mapping you specify.
 "
 " Variables:
 "   The following variables allow you to customize the behavior of this
@@ -176,7 +176,7 @@
 "     change this by setting this variable to a different key.  For
 "     example, if you want to use the comma-key, you can add this line to
 "     your vimrc:
-"       
+"
 "         let maplocalleader = ','
 "
 "   b:javagetset_insertPosition
@@ -211,11 +211,11 @@
 "          * @return name as String
 "          */
 "         public static String getName() { return name; }
-"     
+"
 "     This block of code can be produced by adding the following variable
 "     definition to your vimrc file.
 "
-"         let b:javagetset_getterTemplate = 
+"         let b:javagetset_getterTemplate =
 "           \ "\n" .
 "           \ "/**\n" .
 "           \ " * Get %varname%.\n" .
@@ -233,7 +233,7 @@
 " INSTALLATION
 " 1. Copy the script to your ${HOME}/.vim/ftplugins directory and make
 "    sure its named "java_getset.vim" or "java_something.vim" where
-"    "something" can be anything you want.  
+"    "something" can be anything you want.
 "
 " 2. (Optional) Customize the mapping and/or templates.  You can create
 "    your own filetype plugin (just make sure its loaded before this one)
@@ -272,8 +272,8 @@ set cpo&vim
 " Getter Templates (non-array and array-based)
 if exists("b:javagetset_getterTemplate")
   let s:javagetset_getterTemplate = b:javagetset_getterTemplate
-else  
-  let s:javagetset_getterTemplate = 
+else
+  let s:javagetset_getterTemplate =
     \ "\n" .
     \ "/**\n" .
     \ " * Get %varname%.\n" .
@@ -288,7 +288,7 @@ endif
 
 if exists("b:javagetset_getterArrayTemplate")
   let s:javagetset_getterArrayTemplate = b:javagetset_getterArrayTemplate
-else  
+else
   let s:javagetset_getterArrayTemplate =
     \ "\n" .
     \ "/**\n" .
@@ -316,13 +316,13 @@ endif
 " Setter Templates (non-array and array-based)
 if exists("b:javagetset_setterTemplate")
   let s:javagetset_setterTemplate = b:javagetset_setterTemplate
-else  
-  let s:javagetset_setterTemplate = 
+else
+  let s:javagetset_setterTemplate =
   \ "\n" .
   \ "/**\n" .
   \ " * Set %varname%.\n" .
   \ " *\n" .
-  \ " * @param %varname% the value to set.\n" . 
+  \ " * @param %varname% the value to set.\n" .
   \ " */\n" .
   \ "%modifiers% void %funcname%(%type% %varname%)\n" .
   \ "{\n" .
@@ -332,13 +332,13 @@ endif
 
 if exists("b:javagetset_setterArrayTemplate")
   let s:javagetset_setterArrayTemplate = b:javagetset_setterArrayTemplate
-else  
+else
   let s:javagetset_setterArrayTemplate =
   \ "\n" .
   \ "/**\n" .
   \ " * Set %varname%.\n" .
   \ " *\n" .
-  \ " * @param %varname% the value to set.\n" . 
+  \ " * @param %varname% the value to set.\n" .
   \ " */\n" .
   \ "%modifiers% void %funcname%(%type%[] %varname%)\n" .
   \ "{\n" .
@@ -348,8 +348,8 @@ else
   \ "/**\n" .
   \ " * Set %varname% at the specified index.\n" .
   \ " *\n" .
-  \ " * @param %varname% the value to set.\n" . 
-  \ " * @param index the index.\n" . 
+  \ " * @param %varname% the value to set.\n" .
+  \ " * @param index the index.\n" .
   \ " */\n" .
   \ "%modifiers% void %funcname%(%type% %varname%, int index)\n" .
   \ "{\n" .
@@ -357,20 +357,20 @@ else
   \ "}"
 endif
 
-" Position where methods are inserted.  The possible values are: 
-"   0 - end of class 
+" Position where methods are inserted.  The possible values are:
+"   0 - end of class
 "   1 = above block / line
 "   2 = below block / line
 if exists("b:javagetset_insertPosition")
   let s:javagetset_insertPosition = b:javagetset_insertPosition
-else  
+else
   let s:javagetset_insertPosition = 0
 endif
 
 " Script local variables that are used like globals.
 "
 " If set to 1, the user has requested that getters be inserted
-let s:getter    = 0 
+let s:getter    = 0
 
 " If set to 1, the user has requested that setters be inserted
 let s:setter    = 0
@@ -417,7 +417,7 @@ let s:variable = '\(\s*\)\(\(' . s:modifier . '\s\+\)*\)\(' . s:javaname . '\)' 
 " The main entry point. This function saves the current position of the
 " cursor without the use of a mark (see note below)  Then the selected
 " region is processed for properties.
-" 
+"
 " FIXME: I wanted to avoid clobbering any marks in use by the user, so I
 " manually try to save the current position and restore it.  The only drag
 " is that the position isn't restored correctly if the user opts to insert
@@ -441,7 +441,7 @@ if !exists("*s:InsertGetterSetter")
     endif
 
     execute restorepos
-   
+
     " Not sure why I need this but if I don't have it, the drawing on the
     " screen is messed up from my insert.  Perhaps I'm doing something
     " wrong, but it seems to me that I probably shouldn't be calling
@@ -457,26 +457,26 @@ endif
 " getter/setter, and 'a' for ask/prompt user.
 if !exists("*s:DetermineAction")
   function s:DetermineAction(flag)
-  
+
     if a:flag == 'g'
       let s:getter = 1
       let s:setter = 0
-  
+
     elseif a:flag == 's'
       let s:getter = 0
       let s:setter = 1
-  
+
     elseif a:flag == 'b'
       let s:getter = 1
       let s:setter = 1
-  
+
     elseif a:flag == 'a'
       return s:DetermineAction(s:AskUser())
-  
+
     else
       return 0
     endif
-  
+
     return 1
   endfunction
 endif
@@ -486,8 +486,8 @@ endif
 " user cancelled out.
 if !exists("*s:AskUser")
   function s:AskUser()
-    let choice = 
-        \   confirm("What do you want to insert?", 
+    let choice =
+        \   confirm("What do you want to insert?",
         \           "&Getter\n&Setter\n&Both", 3)
 
     if choice == 0
@@ -551,24 +551,23 @@ endif
 " was:
 "
 "     // Age    private int age;    // Name    priavte static String name;
-" 
+"
 " Then, the following strings would be processed one at a time:
 "
 " private int age;
 " private static String name;
 "
-if !exists("*s:ProcessRegion") 
+if !exists("*s:ProcessRegion")
   function s:ProcessRegion(region)
-    let startPosition = match(a:region, s:variable, 0) 
+    let startPosition = match(a:region, s:variable, 0)
     let endPosition = matchend(a:region, s:variable, 0)
 
     while startPosition != -1
       let result = strpart(a:region, startPosition, endPosition - startPosition)
 
-      "call s:DebugParsing(result)
       call s:ProcessVariable(result)
 
-      let startPosition = match(a:region, s:variable, endPosition) 
+      let startPosition = match(a:region, s:variable, endPosition)
       let endPosition = matchend(a:region, s:variable, endPosition)
     endwhile
 
@@ -594,17 +593,17 @@ endif
 " static    = 1
 " final     = 0
 " isarray   = 0
-" 
+"
 if !exists("*s:ProcessVariable")
   function s:ProcessVariable(variable)
     let s:static    = 0
     let s:isarray   = 0
     let s:final     = 0
-    let s:indent    = substitute(a:variable, s:variable, '\1', '') 
-    let s:modifiers = substitute(a:variable, s:variable, '\2', '') 
-    let s:vartype   = substitute(a:variable, s:variable, '\5', '') 
-    let s:vararray  = substitute(a:variable, s:variable, '\7', '') 
-    let s:varname   = substitute(a:variable, s:variable, '\8', '') 
+    let s:indent    = substitute(a:variable, s:variable, '\1', '')
+    let s:modifiers = substitute(a:variable, s:variable, '\2', '')
+    let s:vartype   = substitute(a:variable, s:variable, '\5', '')
+    let s:vararray  = substitute(a:variable, s:variable, '\7', '')
+    let s:varname   = substitute(a:variable, s:variable, '\8', '')
     let s:funcname  = toupper(s:varname[0]) . strpart(s:varname, 1)
 
     " If any getter or setter already exists, then just return as there
@@ -726,7 +725,7 @@ if !exists("*s:InsertMethodBody")
 endif
 
 " Move the cursor to the insertion point.  This insertion point can be
-" defined by the user by setting the b:javagetset_insertPosition variable.  
+" defined by the user by setting the b:javagetset_insertPosition variable.
 if !exists("*s:MoveToInsertPosition")
   function s:MoveToInsertPosition()
 
@@ -737,12 +736,12 @@ if !exists("*s:MoveToInsertPosition")
     " 2 indicates below the current block / line
     elseif s:javagetset_insertPosition == 2
       execute "normal! " . s:lastline . "G0"
-    
+
     " 0 indicates end of class (and is default)
     else
       execute "normal! ?{\<CR>w99[{%k" | nohls
 
-    endif 
+    endif
 
   endfunction
 endif
@@ -754,10 +753,10 @@ if !exists("*s:DebugParsing")
     echo 'DEBUG:' a:variable
     echo 'DEBUG: ----------------------------------------------------'
     echo 'DEBUG:    indent:' substitute(a:variable, s:variable, '\1', '')
-    echo 'DEBUG: modifiers:' substitute(a:variable, s:variable, '\2', '') 
-    echo 'DEBUG:      type:' substitute(a:variable, s:variable, '\5', '') 
-    echo 'DEBUG:     array:' substitute(a:variable, s:variable, '\7', '') 
-    echo 'DEBUG:      name:' substitute(a:variable, s:variable, '\8', '') 
+    echo 'DEBUG: modifiers:' substitute(a:variable, s:variable, '\2', '')
+    echo 'DEBUG:      type:' substitute(a:variable, s:variable, '\5', '')
+    echo 'DEBUG:     array:' substitute(a:variable, s:variable, '\7', '')
+    echo 'DEBUG:      name:' substitute(a:variable, s:variable, '\8', '')
     echo ''
   endfunction
 endif
@@ -771,101 +770,65 @@ if !exists("no_plugin_maps") && !exists("no_java_maps")
   if !hasmapto('<Plug>JavagetsetInsertGetterSetter')
     map <unique> <buffer> <LocalLeader>p <Plug>JavagetsetInsertGetterSetter
   endif
-  noremap <buffer> <script> 
-    \ <Plug>JavagetsetInsertGetterSetter 
+  noremap <buffer> <script>
+    \ <Plug>JavagetsetInsertGetterSetter
     \ <SID>InsertGetterSetter
-  noremap <buffer> 
-    \ <SID>InsertGetterSetter 
+  noremap <buffer>
+    \ <SID>InsertGetterSetter
     \ :call <SID>InsertGetterSetter('a')<CR>
 
   if !hasmapto('<Plug>JavagetsetInsertGetterOnly')
     map <unique> <buffer> <LocalLeader>g <Plug>JavagetsetInsertGetterOnly
   endif
-  noremap <buffer> <script> 
+  noremap <buffer> <script>
     \ <Plug>JavagetsetInsertGetterOnly
     \ <SID>InsertGetterOnly
-  noremap <buffer> 
+  noremap <buffer>
     \ <SID>InsertGetterOnly
     \ :call <SID>InsertGetterSetter('g')<CR>
 
   if !hasmapto('<Plug>JavagetsetInsertSetterOnly')
     map <unique> <buffer> <LocalLeader>s <Plug>JavagetsetInsertSetterOnly
   endif
-  noremap <buffer> <script> 
+  noremap <buffer> <script>
     \ <Plug>JavagetsetInsertSetterOnly
     \ <SID>InsertSetterOnly
-  noremap <buffer> 
+  noremap <buffer>
     \ <SID>InsertSetterOnly
     \ :call <SID>InsertGetterSetter('s')<CR>
 
   if !hasmapto('<Plug>JavagetsetInsertBothGetterSetter')
     map <unique> <buffer> <LocalLeader>b <Plug>JavagetsetInsertBothGetterSetter
   endif
-  noremap <buffer> <script> 
+  noremap <buffer> <script>
     \ <Plug>JavagetsetInsertBothGetterSetter
     \ <SID>InsertBothGetterSetter
-  noremap <buffer> 
-    \ <SID>InsertBothGetterSetter 
+  noremap <buffer>
+    \ <SID>InsertBothGetterSetter
     \ :call <SID>InsertGetterSetter('b')<CR>
 endif
 
 " Add commands, unless already set.
 if !exists(":InsertGetterSetter")
-  command -range -buffer 
-    \ InsertGetterSetter 
+  command -range -buffer
+    \ InsertGetterSetter
     \ :<line1>,<line2>call s:InsertGetterSetter('a')
 endif
 if !exists(":InsertGetterOnly")
-  command -range -buffer 
+  command -range -buffer
     \ InsertGetterOnly
     \ :<line1>,<line2>call s:InsertGetterSetter('g')
 endif
 if !exists(":InsertSetterOnly")
-  command -range -buffer 
+  command -range -buffer
     \ InsertSetterOnly
     \ :<line1>,<line2>call s:InsertGetterSetter('s')
 endif
 if !exists(":InsertBothGetterSetter")
-  command -range -buffer 
+  command -range -buffer
     \ InsertBothGetterSetter
     \ :<line1>,<line2>call s:InsertGetterSetter('b')
 endif
 
 let &cpo = s:save_cpo
 
-"if !exists("*s:InsertText")
-"  function s:InsertText(text)
-"    let pos = line('.')
-"    let beg = 0
-"    let len = stridx(a:text, "\n")
-"
-"    while beg < strlen(a:text)
-"      if len == -1
-"        call append(pos, s:indent . strpart(a:text, beg))
-"        break
-"      endif
-"
-"      call append(pos, s:indent . strpart(a:text, beg, len))
-"      let pos = pos + 1
-"      let beg = beg + len + 1
-"      let len = stridx(strpart(a:text, beg), "\n")
-"    endwhile
-"
-"    " Not too sure why I have to call redraw, but weirdo things appear
-"    " on the screen if I don't.
-"    redraw!
-"
-"  endfunction
-"endif
-"
-"if !exists("*s:InsertAccessor")
-"  function s:InsertAccessor()
-"    echo "InsertAccessor was called"
-"  endfunction
-"endif
-"
-"if !exists("*s:SqueezeWhitespace")
-"  function s:SqueezeWhitespace(string)
-"      return substitute(a:string, '\_s\+', ' ', 'g')
-"  endfunction
-"endif
