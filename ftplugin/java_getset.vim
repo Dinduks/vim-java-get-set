@@ -410,9 +410,10 @@ let s:lastline  = 0
 
 " Regular expressions used to match property statements
 let s:javaname = '[a-zA-Z_$][a-zA-Z0-9_$]*'
+let s:javatype = s:javaname.'\|'.s:javaname.'<'.s:javaname.'>\|'.s:javaname.'<'.s:javaname.','.s:javaname.'>'
 let s:brackets = '\(\s*\(\[\s*\]\)\)\='
 let s:modifier = '\(private\|protected\|public\|volatile\|static\|final\)'
-let s:variable = '\(\s*\)\(\(' . s:modifier . '\s\+\)*\)\(' . s:javaname . '\)' . s:brackets . '\s\+\(' . s:javaname . '\)\s*\(;\|=[^;]\+;\)'
+let s:variable = '\(\s*\)\(\(' . s:modifier . '\s\+\)*\)\(' . s:javatype . '\)' . s:brackets . '\s\+\(' . s:javaname . '\)\s*\(;\|=[^;]\+;\)'
 
 " The main entry point. This function saves the current position of the
 " cursor without the use of a mark (see note below)  Then the selected
