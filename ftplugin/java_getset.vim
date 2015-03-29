@@ -84,8 +84,7 @@
 "      *
 "      * @return %varname% as %type%.
 "      */
-"     %modifiers% %type% %funcname%()
-"     {
+"     %modifiers% %type% %funcname%() {
 "         return %varname%;
 "     }
 "
@@ -404,8 +403,8 @@ let s:lastline  = 0
 
 " Regular expressions used to match property statements
 let s:javaname = '[a-zA-Z_$][a-zA-Z0-9_$]*'
-let s:javatype = s:javaname.'\|'.s:javaname.'<'.s:javaname.'>\|'.s:javaname.'<'.s:javaname.','.s:javaname.'>'
-let s:brackets = '\(\s*\(\[\s*\]\)\)\='
+let s:javatype = s:javaname.'\|'.s:javaname.'\s*<\s*'.s:javaname.'\(\s*,\s*'.s:javaname.'\s*\)*\s*>'
+let s:brackets = '\(\s*\[\s*\]\)\='
 let s:modifier = '\(private\|protected\|public\|volatile\|static\|final\)'
 let s:variable = '\(\s*\)\(\(' . s:modifier . '\s\+\)*\)\(' . s:javatype . '\)' . s:brackets . '\s\+\(' . s:javaname . '\)\s*\(;\|=[^;]\+;\)'
 
