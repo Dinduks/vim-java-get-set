@@ -280,8 +280,7 @@ else
     \ " *\n" .
     \ " * @return %varname% as %type%.\n" .
     \ " */\n" .
-    \ "%modifiers% %type% %funcname%()\n" .
-    \ "{\n" .
+    \ "%modifiers% %type% %funcname%() {\n" .
     \ "    return %varname%;\n" .
     \ "}"
 endif
@@ -296,8 +295,7 @@ else
     \ " *\n" .
     \ " * @return %varname% as %type%[].\n" .
     \ " */\n" .
-    \ "%modifiers% %type%[] %funcname%()\n" .
-    \ "{\n" .
+    \ "%modifiers% %type%[] %funcname%() {\n" .
     \ "    return %varname%;\n" .
     \ "}\n" .
     \ "\n" .
@@ -307,8 +305,7 @@ else
     \ " * @param index the index.\n" .
     \ " * @return %varname% at index as %type%.\n" .
     \ " */\n" .
-    \ "%modifiers% %type% %funcname%(int index)\n" .
-    \ "{\n" .
+    \ "%modifiers% %type% %funcname%(int index) {\n" .
     \ "    return %varname%[index];\n" .
     \ "}"
 endif
@@ -324,8 +321,7 @@ else
   \ " *\n" .
   \ " * @param %varname% the value to set.\n" .
   \ " */\n" .
-  \ "%modifiers% void %funcname%(%type% %varname%)\n" .
-  \ "{\n" .
+  \ "%modifiers% void %funcname%(%type% %varname%) {\n" .
   \ "    this.%varname% = %varname%;\n" .
   \ "}"
 endif
@@ -340,8 +336,7 @@ else
   \ " *\n" .
   \ " * @param %varname% the value to set.\n" .
   \ " */\n" .
-  \ "%modifiers% void %funcname%(%type%[] %varname%)\n" .
-  \ "{\n" .
+  \ "%modifiers% void %funcname%(%type%[] %varname%) {\n" .
   \ "    this.%varname% = %varname%;\n" .
   \ "}\n" .
   \ "\n" .
@@ -351,8 +346,7 @@ else
   \ " * @param %varname% the value to set.\n" .
   \ " * @param index the index.\n" .
   \ " */\n" .
-  \ "%modifiers% void %funcname%(%type% %varname%, int index)\n" .
-  \ "{\n" .
+  \ "%modifiers% void %funcname%(%type% %varname%, int index) {\n" .
   \ "    this.%varname%[index] = %varname%;\n" .
   \ "}"
 endif
