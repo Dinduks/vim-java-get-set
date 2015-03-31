@@ -633,7 +633,7 @@ endif
 " Checks to see if any getter/setter exists.
 if !exists("*s:AlreadyExists")
   function s:AlreadyExists()
-    return search('\(get\|set\)' . s:funcname . '\_s*([^)]*)\_s*{', 'w')
+    return search('\(get\|set\|is\)' . s:funcname . '\_s*([^)]*)\_s*{', 'w')
   endfunction
 endif
 
@@ -655,7 +655,7 @@ if !exists("*s:InsertGetter")
 
     let method = substitute(method, '%type%', s:vartype, 'g')
     let method = substitute(method, '%varname%', s:varname, 'g')
-    let method = substitute(method, '%funcname%', 'get' . s:funcname, 'g')
+    let method = substitute(method, '%funcname%', (s:vartype =~ '[bB]oolean' ? 'is' : 'get') . s:funcname, 'g')
     let method = substitute(method, '%modifiers%', mods, 'g')
 
     call s:InsertMethodBody(method)
