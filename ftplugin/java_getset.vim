@@ -600,13 +600,6 @@ if !exists("*s:ProcessVariable")
     let s:varname   = substitute(a:variable, s:variable, '\8', '')
     let s:funcname  = toupper(s:varname[0]) . strpart(s:varname, 1)
 
-    " If any getter or setter already exists, then just return as there
-    " is nothing to be done.  The assumption is that the user already
-    " made his choice.
-    if s:AlreadyExists()
-      return
-    endif
-
     if s:modifiers =~ 'static'
       let s:static = 1
     endif
@@ -619,21 +612,28 @@ if !exists("*s:ProcessVariable")
       let s:isarray = 1
     endif
 
-    if s:getter
+    if s:getter && !s:GetterAlreadyExists()
       call s:InsertGetter()
     endif
 
-    if s:setter && !s:final
+    if s:setter && !s:final && !s:SetterAlreadyExists()
       call s:InsertSetter()
     endif
 
   endfunction
 endif
 
-" Checks to see if any getter/setter exists.
-if !exists("*s:AlreadyExists")
-  function s:AlreadyExists()
-    return search('\(get\|set\|is\)' . s:funcname . '\_s*([^)]*)\_s*{', 'w')
+" Checks to see if any getter exists.
+if !exists("*s:GetterAlreadyExists")
+  function s:GetterAlreadyExists()
+    return search('\(get\|is\)' . s:funcname . '\_s*([^)]*)\_s*{', 'w')
+  endfunction
+endif
+
+" Checks to see if any setter exists.
+if !exists("*s:SetterAlreadyExists")
+  function s:SetterAlreadyExists()
+    return search('set' . s:funcname . '\_s*([^)]*)\_s*{', 'w')
   endfunction
 endif
 
