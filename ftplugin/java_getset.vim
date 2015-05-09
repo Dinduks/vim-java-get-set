@@ -84,8 +84,7 @@
 "      *
 "      * @return %varname% as %type%.
 "      */
-"     %modifiers% %type% %funcname%()
-"     {
+"     %modifiers% %type% %funcname%() {
 "         return %varname%;
 "     }
 "
@@ -280,8 +279,7 @@ else
     \ " *\n" .
     \ " * @return %varname% as %type%.\n" .
     \ " */\n" .
-    \ "%modifiers% %type% %funcname%()\n" .
-    \ "{\n" .
+    \ "%modifiers% %type% %funcname%() {\n" .
     \ "    return %varname%;\n" .
     \ "}"
 endif
@@ -296,8 +294,7 @@ else
     \ " *\n" .
     \ " * @return %varname% as %type%[].\n" .
     \ " */\n" .
-    \ "%modifiers% %type%[] %funcname%()\n" .
-    \ "{\n" .
+    \ "%modifiers% %type%[] %funcname%() {\n" .
     \ "    return %varname%;\n" .
     \ "}\n" .
     \ "\n" .
@@ -307,8 +304,7 @@ else
     \ " * @param index the index.\n" .
     \ " * @return %varname% at index as %type%.\n" .
     \ " */\n" .
-    \ "%modifiers% %type% %funcname%(int index)\n" .
-    \ "{\n" .
+    \ "%modifiers% %type% %funcname%(int index) {\n" .
     \ "    return %varname%[index];\n" .
     \ "}"
 endif
@@ -324,8 +320,7 @@ else
   \ " *\n" .
   \ " * @param %varname% the value to set.\n" .
   \ " */\n" .
-  \ "%modifiers% void %funcname%(%type% %varname%)\n" .
-  \ "{\n" .
+  \ "%modifiers% void %funcname%(%type% %varname%) {\n" .
   \ "    this.%varname% = %varname%;\n" .
   \ "}"
 endif
@@ -340,8 +335,7 @@ else
   \ " *\n" .
   \ " * @param %varname% the value to set.\n" .
   \ " */\n" .
-  \ "%modifiers% void %funcname%(%type%[] %varname%)\n" .
-  \ "{\n" .
+  \ "%modifiers% void %funcname%(%type%[] %varname%) {\n" .
   \ "    this.%varname% = %varname%;\n" .
   \ "}\n" .
   \ "\n" .
@@ -351,8 +345,7 @@ else
   \ " * @param %varname% the value to set.\n" .
   \ " * @param index the index.\n" .
   \ " */\n" .
-  \ "%modifiers% void %funcname%(%type% %varname%, int index)\n" .
-  \ "{\n" .
+  \ "%modifiers% void %funcname%(%type% %varname%, int index) {\n" .
   \ "    this.%varname%[index] = %varname%;\n" .
   \ "}"
 endif
@@ -410,9 +403,10 @@ let s:lastline  = 0
 
 " Regular expressions used to match property statements
 let s:javaname = '[a-zA-Z_$][a-zA-Z0-9_$]*'
-let s:brackets = '\(\s*\(\[\s*\]\)\)\='
+let s:javatype = s:javaname.'\|'.s:javaname.'\s*<\s*'.s:javaname.'\(\s*,\s*'.s:javaname.'\s*\)*\s*>'
+let s:brackets = '\(\s*\[\s*\]\)\='
 let s:modifier = '\(private\|protected\|public\|volatile\|static\|final\)'
-let s:variable = '\(\s*\)\(\(' . s:modifier . '\s\+\)*\)\(' . s:javaname . '\)' . s:brackets . '\s\+\(' . s:javaname . '\)\s*\(;\|=[^;]\+;\)'
+let s:variable = '\(\s*\)\(\(' . s:modifier . '\s\+\)*\)\(' . s:javatype . '\)' . s:brackets . '\s\+\(' . s:javaname . '\)\s*\(;\|=[^;]\+;\)'
 
 " The main entry point. This function saves the current position of the
 " cursor without the use of a mark (see note below)  Then the selected
@@ -606,13 +600,6 @@ if !exists("*s:ProcessVariable")
     let s:varname   = substitute(a:variable, s:variable, '\8', '')
     let s:funcname  = toupper(s:varname[0]) . strpart(s:varname, 1)
 
-    " If any getter or setter already exists, then just return as there
-    " is nothing to be done.  The assumption is that the user already
-    " made his choice.
-    if s:AlreadyExists()
-      return
-    endif
-
     if s:modifiers =~ 'static'
       let s:static = 1
     endif
@@ -625,21 +612,28 @@ if !exists("*s:ProcessVariable")
       let s:isarray = 1
     endif
 
-    if s:getter
+    if s:getter && !s:GetterAlreadyExists()
       call s:InsertGetter()
     endif
 
-    if s:setter && !s:final
+    if s:setter && !s:final && !s:SetterAlreadyExists()
       call s:InsertSetter()
     endif
 
   endfunction
 endif
 
-" Checks to see if any getter/setter exists.
-if !exists("*s:AlreadyExists")
-  function s:AlreadyExists()
-    return search('\(get\|set\)' . s:funcname . '\_s*([^)]*)\_s*{', 'w')
+" Checks to see if any getter exists.
+if !exists("*s:GetterAlreadyExists")
+  function s:GetterAlreadyExists()
+    return search('\(get\|is\)' . s:funcname . '\_s*([^)]*)\_s*{', 'w')
+  endfunction
+endif
+
+" Checks to see if any setter exists.
+if !exists("*s:SetterAlreadyExists")
+  function s:SetterAlreadyExists()
+    return search('set' . s:funcname . '\_s*([^)]*)\_s*{', 'w')
   endfunction
 endif
 
@@ -661,7 +655,7 @@ if !exists("*s:InsertGetter")
 
     let method = substitute(method, '%type%', s:vartype, 'g')
     let method = substitute(method, '%varname%', s:varname, 'g')
-    let method = substitute(method, '%funcname%', 'get' . s:funcname, 'g')
+    let method = substitute(method, '%funcname%', (s:vartype =~ '[bB]oolean' ? 'is' : 'get') . s:funcname, 'g')
     let method = substitute(method, '%modifiers%', mods, 'g')
 
     call s:InsertMethodBody(method)
